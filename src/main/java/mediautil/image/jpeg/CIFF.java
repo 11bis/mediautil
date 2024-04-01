@@ -41,7 +41,9 @@ import mediautil.gen.Log;
 import mediautil.gen.Rational;
 
 public class CIFF extends AbstractImageInfo <LLJTran>{
-    final static String FORMAT = "HEAP";
+	private static final long serialVersionUID = 32725191387783558L;
+
+	final static String FORMAT = "HEAP";
 
     final static String JPGM = "JPGM"; // subtype
 
@@ -190,7 +192,7 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
             int length = s2n(offset + 2, 4);
             int recoffext = s2n(offset + 6, 4) + start;
             if (datatypeidcode == K_TC_IMAGESPEC) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2n(recoffext, 4),
                         s2n(recoffext + 4, 4), Float.intBitsToFloat(s2n(
                                 recoffext + 8, 4)), s2n(recoffext + 12, 4),
@@ -199,23 +201,23 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
             } else if (datatypeidcode == K_TC_MODELNAME) {
                 String manufacturer = s2a(recoffext, length);
                 manufacturer.replace((char) 0, ' ');
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, manufacturer));
             } else if (datatypeidcode == K_TC_IMAGEFILENAME
                     || datatypeidcode == K_TC_THUMBNAILFILENAME
                     || datatypeidcode == K_TC_DESCRIPTION
                     || datatypeidcode == K_TC_OWNERNAME
                     || datatypeidcode == K_TC_FIRMWAREVERSION) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2a(recoffext, length)));
             } else if (datatypeidcode == K_TC_SR_EXPOSURE) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode,
                         Float.intBitsToFloat(s2n(recoffext, 4)), Float
                                 .intBitsToFloat(s2n(recoffext + 4, 4)), //tv
                         Float.intBitsToFloat(s2n(recoffext + 8, 4)))); //av
             } else if (datatypeidcode == K_TC_CAPTURETIME) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2n(recoffext, 4),
                         s2n(recoffext + 4, 4), s2n(recoffext + 8, 4)));
             } else if (datatypeidcode == K_TC_CAMERASPECIFICATION) {
@@ -233,7 +235,7 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
                 else
                     heapcontent
                             .put(
-                                    new Integer(datatypeidcode),
+                                    Integer.valueOf(datatypeidcode),
                                     new Record(
                                             datatypeidcode,
                                             ((datatypeidcode & K_DATATYPEMASK) == K_DT_ASCII) ? s2a(
@@ -245,35 +247,35 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
             }
         } else if ((type & KSTG_INRECORDENTRY) != 0) {
             if (datatypeidcode == K_TC_IMAGEFORMAT) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2n(offset + 2, 4), Float
                                 .intBitsToFloat(s2n(offset + 6, 4))));
             } else if (datatypeidcode == K_TC_TARGETIMAGETYPE) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2n(offset + 2, 2)));
             } else if (datatypeidcode == K_TC_RECORDID
                     || datatypeidcode == K_TC_SERIALNUMBER
                     || datatypeidcode == K_TC_SELFTIMERTIME
                     || datatypeidcode == K_TC_BODYID) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2n(offset + 2, 4)));
             } else if (datatypeidcode == K_TC_SR_RELEASEMETHOD
                     || datatypeidcode == K_TC_SR_RELEASETIMING
                     || datatypeidcode == K_TC_BODYSENSITIVITY) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2n(offset + 2, 2)));
             } else if (datatypeidcode == K_TC_SR_EF) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, Float
                                 .intBitsToFloat(s2n(offset + 2, 4)), Float
                                 .intBitsToFloat(s2n(offset + 6, 4))));
             } else if (datatypeidcode == K_TC_SR_TARGETDISTANCESETTING
                     || datatypeidcode == K_TC_MI_EV) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, Float
                                 .intBitsToFloat(s2n(offset + 2, 4))));
             } else if (datatypeidcode == K_TC_ROMOPERATIONMODE) {
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, s2a(offset + 2, 8)));
             } else {
                 String content;
@@ -290,7 +292,7 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
                     else if ((datatypeidcode & K_DATATYPEMASK) == K_DT_BYTE)
                         content += "(" + s2n(offset + 2, 1) + ")";
                 }
-                heapcontent.put(new Integer(datatypeidcode), new Record(
+                heapcontent.put(Integer.valueOf(datatypeidcode), new Record(
                         datatypeidcode, content));
             }
         }
@@ -299,14 +301,14 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
 
     public int getResolutionX() {
         // to optimize, extract sizes in heap parsing process 
-        Record r = (Record) heapcontent.get(new Integer(K_TC_IMAGESPEC));
+        Record r = (Record) heapcontent.get(Integer.valueOf(K_TC_IMAGESPEC));
         if (r != null)
             return r.getWidth();
         return -1;
     }
 
     public int getResolutionY() {
-        Record r = (Record) heapcontent.get(new Integer(K_TC_IMAGESPEC));
+        Record r = (Record) heapcontent.get(Integer.valueOf(K_TC_IMAGESPEC));
         if (r != null)
             return r.getHeight();
         return -1;
@@ -321,20 +323,20 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
     }
 
     public String getMake() {
-        return heapcontent.get(new Integer(K_TC_MODELNAME)).toString();
+        return heapcontent.get(Integer.valueOf(K_TC_MODELNAME)).toString();
     }
 
     public String getModel() {
-        return heapcontent.get(new Integer(K_TC_MODELNAME)).toString();
+        return heapcontent.get(Integer.valueOf(K_TC_MODELNAME)).toString();
     }
 
     public String getDataTimeOriginalString() {
-        return heapcontent.get(new Integer(K_TC_CAPTURETIME)).toString();
+        return heapcontent.get(Integer.valueOf(K_TC_CAPTURETIME)).toString();
     }
 
     public float getFNumber() {
         try {
-            return apertureToFnumber(((Record) heapcontent.get(new Integer(
+            return apertureToFnumber(((Record) heapcontent.get(Integer.valueOf(
                     K_TC_SR_EXPOSURE))).getFloatValue(2));
         } catch (NullPointerException e) {
         }
@@ -343,7 +345,7 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
 
     public Rational getShutter() {
         try {
-            int si = (int) ((Record) heapcontent.get(new Integer(
+            int si = (int) ((Record) heapcontent.get(Integer.valueOf(
                     K_TC_SR_EXPOSURE))).getFloatValue(1);
             return TV_TO_SEC[si];
         } catch (NullPointerException e) {
@@ -354,7 +356,7 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
 
     public boolean isFlash() {
         try {
-            return ((Record) heapcontent.get(new Integer(K_TC_SR_EF)))
+            return ((Record) heapcontent.get(Integer.valueOf(K_TC_SR_EF)))
                     .getFloatValue() > 0;
         } catch (NullPointerException e) {
         }
@@ -370,13 +372,13 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
     }
 
     public String getReport() {
-        return heapcontent.get(new Integer(K_TC_SR_EXPOSURE)).toString();
+        return heapcontent.get(Integer.valueOf(K_TC_SR_EXPOSURE)).toString();
     }
 
     public boolean saveThumbnailImage(OutputStream os)
             throws IOException {
         try {
-            String tnfn = heapcontent.get(new Integer(K_TC_THUMBNAILFILENAME))
+            String tnfn = heapcontent.get(Integer.valueOf(K_TC_THUMBNAILFILENAME))
                     .toString();
             if (tnfn != null) {
                 InputStream is = new FileInputStream(new File(getImageFile().getParent(), tnfn));
@@ -394,7 +396,7 @@ public class CIFF extends AbstractImageInfo <LLJTran>{
     public Icon getThumbnailIcon(Dimension size) {
         try {
             File tnf = new File(getImageFile().getParent(),
-                    heapcontent.get(new Integer(K_TC_THUMBNAILFILENAME))
+                    heapcontent.get(Integer.valueOf(K_TC_THUMBNAILFILENAME))
                             .toString());
             if (tnf.exists())
                 return new ImageIcon(tnf.getAbsolutePath());

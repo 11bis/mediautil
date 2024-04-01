@@ -39,7 +39,9 @@ import mediautil.gen.Rational;
 import mediautil.gen.Log;
 
 public class Flashpix extends AbstractImageInfo <LLJTran>{
-    public final static String FORMAT = "Flashpix";
+	private static final long serialVersionUID = 6412445282521762685L;
+
+	public final static String FORMAT = "Flashpix";
 
     final static int HEADER_LENGTH = 512;
 

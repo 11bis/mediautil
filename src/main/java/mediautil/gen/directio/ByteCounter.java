@@ -23,8 +23,6 @@
  */
 package mediautil.gen.directio;
 
-import java.io.InputStream;
-
 /**
  * This Interface provides for tracking the number of bytes read/written.
  * The Stream given by directio Utility classes for use by a class implementing

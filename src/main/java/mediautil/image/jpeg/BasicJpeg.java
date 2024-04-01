@@ -54,7 +54,9 @@ import mediautil.gen.MediaInfo;
 
 public class BasicJpeg extends LLJTran implements MediaFormat {
 
-    public BasicJpeg(File file, String enc) {
+	private static final long serialVersionUID = -7301271492473402997L;
+
+	public BasicJpeg(File file, String enc) {
         super(file);
         if (enc != null)
         	setEncoding(enc);
@@ -169,7 +171,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
 	}
 
     public String getThumbnailType() {
-        return ((AbstractImageInfo) getMediaInfo()).getThumbnailExtension();
+        return ((AbstractImageInfo<?>) getMediaInfo()).getThumbnailExtension();
     }
 
     public byte[] getThumbnailData(Dimension size) {
@@ -191,7 +193,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
     }
     
     public static BufferedImage getBufferedImage(Object imageObj) throws IOException {
-    	Iterator readers = ImageIO.getImageReadersByFormatName(JPEG);
+    	Iterator<?> readers = ImageIO.getImageReadersByFormatName(JPEG);
         if (readers.hasNext()) {
             ImageReader reader = (ImageReader) readers.next();
             ImageInputStream iis = ImageIO.createImageInputStream(imageObj);
@@ -218,7 +220,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
      * and original thumbnail if any will be returned
      */
     public Icon getThumbnail(Dimension size) {
-        return ((AbstractImageInfo) getMediaInfo()).getThumbnailIcon(size);
+        return ((AbstractImageInfo<?>) getMediaInfo()).getThumbnailIcon(size);
     }
 
     protected AdvancedImage advancedImage;
@@ -250,7 +252,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
     public void setComment(String comment) {
         out_comment = comment;
         if (imageinfo != null)
-            imageinfo.setAttribute(imageinfo.COMMENTS, out_comment);
+            imageinfo.setAttribute(MediaInfo.COMMENTS, out_comment);
     }
 
     protected void transformAppHeader(int op, boolean transformThumbnail) throws IOException {
@@ -329,7 +331,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
         return transform(destname, op, preserve_appxs, null);
     }
 
-    public boolean transform(String destname, int op, boolean preserve_appxs, Class custom_appx) {
+    public boolean transform(String destname, int op, boolean preserve_appxs, Class<?> custom_appx) {
         if (new File(destname).exists()) {
             if(Log.debugLevel >= Log.LEVEL_ERROR)
                 System.err.println("File " + destname + " already exists. The operation abandoned.");
@@ -353,7 +355,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
         return false;
     }
 
-    public boolean transform(OutputStream outStream, int op, boolean preserve_appxs, Class custom_appx) {
+    public boolean transform(OutputStream outStream, int op, boolean preserve_appxs, Class<?> custom_appx) {
         // added return exec condition instead passing up exceptions
         int additionalInfo = OPT_WRITE_COMMENTS;
         if (preserve_appxs) {
@@ -385,7 +387,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
         return true;
     }
 
-    void save(OutputStream os, int op, Class custom_appx) throws IOException {
+    void save(OutputStream os, int op, Class<?> custom_appx) throws IOException {
         String comment;
 
         if (op == COMMENT)
@@ -401,7 +403,7 @@ public class BasicJpeg extends LLJTran implements MediaFormat {
 
     // If comment is null no comment will be written. If "" then existing
     // comment data if any will be written, else comment will be written.
-    protected void writeJpeg(OutputStream os, int op, String comment, boolean writeAppxs, Class custom_appx)
+    protected void writeJpeg(OutputStream os, int op, String comment, boolean writeAppxs, Class<?> custom_appx)
             throws IOException {
         if(op == CROP)
             op = NONE;

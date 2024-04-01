@@ -29,6 +29,7 @@ package mediautil.image.jpeg;
 import java.util.*;
 
 public class IFD extends Entry {
+	private static final long serialVersionUID = -8866775011364812679L;
 	public IFD(int tag) {
 		this(tag, Exif.UNDEFINED);
 	}
@@ -40,11 +41,11 @@ public class IFD extends Entry {
 	}
 	
 	public void addEntry(int tag, Entry entry) {
-		entries.put(new Integer(tag), entry);
+		entries.put(Integer.valueOf(tag), entry);
 	}
 	
 	public void removeEntry(int tag) {
-		entries.remove(new Integer(tag));
+		entries.remove(Integer.valueOf(tag));
 	}
 
 	public void addIFD(IFD ifd) {

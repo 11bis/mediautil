@@ -31,7 +31,9 @@ package mediautil.image.jpeg;
  *
  */
 public class IFDParsingException extends LLJTranException {
-    public IFDParsingException(String msg) {
+	private static final long serialVersionUID = 829578954390530999L;
+
+	public IFDParsingException(String msg) {
         super(msg);
     }
 }

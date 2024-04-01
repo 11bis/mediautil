@@ -48,7 +48,7 @@ public class InStreamFromIterativeWriter extends InputStream {
     protected int qBegin, qEnd, qSize, bufSize, incSize;
     /** Internal Byte Queue variables */
     protected int minWriteSize, writeCushion;
-    private InputStream in;
+//    private InputStream in;
     private IterativeWriter writer;
     private final static int DEF_BUF_SIZE = 4096;
     private byte oneByteArr[] = new byte[1];
@@ -67,7 +67,8 @@ public class InStreamFromIterativeWriter extends InputStream {
 
         public void setCounter(int counterArr[], boolean upMode)
         {
-            int i = counterArr[0]; // Good if an exception is detected
+            @SuppressWarnings("unused")
+			int i = counterArr[0]; // Good if an exception is detected
             this.counterArr = counterArr;
             this.upMode = upMode;
         }
@@ -77,7 +78,8 @@ public class InStreamFromIterativeWriter extends InputStream {
             return totalBytes;
         }
 
-        public void setRequestBuf(byte b[], int off, int len)
+        @SuppressWarnings("unused")
+		public void setRequestBuf(byte b[], int off, int len)
         {
             requestBuf = b;
             requestPos = off;
@@ -90,7 +92,7 @@ public class InStreamFromIterativeWriter extends InputStream {
                 throw new IOException("Stream is not closed or IterativeWriter not set yet");
             if(len < 0)
                 throw new IndexOutOfBoundsException("Negative Length Read attempted, len = " + len);
-            byte b1 = b[off], b2 = b[off + len -1];
+//            byte b1 = b[off], b2 = b[off + len -1];
             int lenRequired = len;
 
             if(requestRemaining > 0)

@@ -25,7 +25,7 @@
  */
 package mediautil.image.jpeg;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import mediautil.gen.BasicIo;
 
@@ -109,12 +109,7 @@ public class BasicJpegIo extends BasicIo {
 	}
 
 	String s2a(int offset, int length) {
-		String result = null;
-		try {
-			result = new String(data, offset, length, "Default");
-		} catch(UnsupportedEncodingException e) {
-		}
-		return result;
+		return new String(data, offset, length, Charset.defaultCharset());
 	}
 
 	boolean isSignature(int offset, String signature) {

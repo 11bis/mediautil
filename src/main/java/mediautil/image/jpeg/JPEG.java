@@ -49,7 +49,9 @@ import mediautil.gen.Rational;
 import mediautil.image.ImageUtil;
 
 public class JPEG extends AbstractImageInfo<LLJTran> {
-    int width, height, precision;
+	private static final long serialVersionUID = -405693587365077753L;
+
+	int width, height, precision;
 
     byte[] header = new byte[2];
 
@@ -265,7 +267,7 @@ public class JPEG extends AbstractImageInfo<LLJTran> {
     }
 
     public static BufferedImage createImage(File imageFile) throws IOException {
-        Iterator readers = ImageIO.getImageReadersByFormatName(LLJTran.JPEG);
+        Iterator<?> readers = ImageIO.getImageReadersByFormatName(LLJTran.JPEG);
         if (readers.hasNext()) {
             ImageReader reader = (ImageReader) readers.next();
             ImageInputStream iis = ImageIO.createImageInputStream(imageFile);

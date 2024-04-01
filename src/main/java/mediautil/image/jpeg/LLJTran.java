@@ -93,7 +93,7 @@ class IterativeWriteVars
     public int options;
     public int restart_interval;
     public String comment;
-    public Class custom_appx;
+    public Class<?> custom_appx;
     public int state = WRITE_COMPLETE;
     public byte huffTables[];
     public int currentAppxPos, currentAppx;
@@ -200,7 +200,7 @@ public class LLJTran extends BasicJpegIo
     protected static final int DCTSIZE2 = 64;
     protected static final int DCTSIZE  = 8;
     protected static final int BYTE_SIZE = 8;
-    private static final int HUFF_LOOKAHEAD = 8;
+//    private static final int HUFF_LOOKAHEAD = 8;
 
     /** Identifies that no part of the Image has been read successfully. Not a
      * valid option while reading */
@@ -356,7 +356,7 @@ public class LLJTran extends BasicJpegIo
      * the JPEG mandate of limiting it to 16 is done. */
     private static final int MAX_CLEN = 32;
 
-    private static final int MAX_APPXS_BLOCKLEN = 1024;
+//    private static final int MAX_APPXS_BLOCKLEN = 1024;
 
     /** Table to get jpeg zigzag order for coefficient arrays */
     protected static final int jpegzigzagorder[] = {
@@ -695,7 +695,7 @@ public class LLJTran extends BasicJpegIo
      * JPEG containing basic Image Info is returned.
      * @return Image Header Information
      */
-    public AbstractImageInfo getImageInfo() {
+    public AbstractImageInfo<?> getImageInfo() {
         return imageinfo;
     }
 
@@ -1204,7 +1204,7 @@ public class LLJTran extends BasicJpegIo
      */
     protected IterativeWriter initWrite(OutputStream outStream, int op, int options,
                              Rectangle bounds, int restart_interval,
-                             boolean pullDownMode, Class custom_appx)
+                             boolean pullDownMode, Class<?> custom_appx)
     throws IOException {
         prevHuffOption = -1;
         iWriteVars.maxWriteRequest = 0;
@@ -1329,7 +1329,7 @@ public class LLJTran extends BasicJpegIo
      * LLJTran.
      */
     protected void transform(OutputStream outStream, int op, int options,
-                             Rectangle bounds, int restart_interval, Class custom_appx)
+                             Rectangle bounds, int restart_interval, Class<?> custom_appx)
     throws IOException {
         initWrite(outStream, op, options,
                   bounds, restart_interval, false, custom_appx);
@@ -1608,7 +1608,7 @@ public class LLJTran extends BasicJpegIo
      * is illegal and results in a Runtime Exception.
      */
     protected void writeJpeg(OutputStream os, int op, String comment,
-                             int options, Rectangle bounds, Class custom_appx,
+                             int options, Rectangle bounds, Class<?> custom_appx,
                              int restart_interval, boolean pullDownMode)
         throws IOException {
         if(op == CROP)
@@ -1624,7 +1624,7 @@ public class LLJTran extends BasicJpegIo
     // If comment is null no comment will be written. If "" then existing
     // comment data if any will be written, else comment will be written.
     private IterativeWriter initWriteJpeg(OutputStream os, int op,
-                    String comment, int options, Class custom_appx,
+                    String comment, int options, Class<?> custom_appx,
                     int restart_interval, boolean pullDownMode)
                   throws IOException {
         if(pullDownMode && (op == ROT_90 || op == ROT_270 || op == TRANSPOSE ||
@@ -1857,7 +1857,7 @@ public class LLJTran extends BasicJpegIo
     private static final int APPXS_FPXR = 4;
 
     private int processAppMarker(byte markerData[], int offset,
-                    AbstractImageInfo imageinfo[], boolean retHandledAppHdr[])
+                    AbstractImageInfo<?> imageinfo[], boolean retHandledAppHdr[])
         throws FileFormatException
     {
       boolean handledAppHdr = false;
@@ -2183,7 +2183,7 @@ markers:
                                 valid = true;
                             if(Log.debugLevel >= Log.LEVEL_DEBUG)
                                 System.out.println("Signature "+new String(data, 0, 4));
-                            AbstractImageInfo curImageInfo[] = null;
+                            AbstractImageInfo<?> curImageInfo[] = null;
                             if( (sections & INFO_SECTION) != 0)
                                 curImageInfo = new AbstractImageInfo[1];
                             int markerType = processAppMarker(data, 4, curImageInfo,
@@ -3070,7 +3070,7 @@ markers:
         // Reload imageinfo
         if(forImageInfo)
         {
-            AbstractImageInfo curImageInfo[] = new AbstractImageInfo[1];
+            AbstractImageInfo<?> curImageInfo[] = new AbstractImageInfo[1];
 
             try
             {
@@ -3446,7 +3446,7 @@ markers:
      * @param os Image output to write to
      * @param custom_appx Custom Image Info Class
      */
-    protected void writeNewMarker(OutputStream os, Class custom_appx) throws IOException {
+    protected void writeNewMarker(OutputStream os, Class<?> custom_appx) throws IOException {
         byte b[];
         if (custom_appx == null)
             return;
@@ -4090,9 +4090,9 @@ enough:
     // partial X & Y blocks without transpose
     private boolean writeNextDCT(int numBytes) throws IOException {
         boolean retVal = true;
-        OutputStream os = iWriteVars.os;
+//        OutputStream os = iWriteVars.os;
         int op = iWriteVars.op;
-        int options = iWriteVars.options;
+//        int options = iWriteVars.options;
         boolean transformDct = iWriteVars.transformDct;
 
         int [][][][][] new_dct_coefs = iWriteVars.new_dct_coefs;
@@ -4493,7 +4493,7 @@ enough:
      * @see #retainDct
      */
     protected int[][] rotate90DCT(int [][]dct) {
-        int i,k,m;
+        int i,k;
         int tmpCoef[] = tmp_dct[0];
         for(i=0; i < tmpCoef.length; ++i)
             tmpCoef[i] = 0;
@@ -4653,9 +4653,9 @@ enough:
         private InputStream is;
         int bit_buff;
         int bit_buff_len;
-        int marker;
+//        int marker;
 //        long marker_offset;
-        int next_restart_num;
+//        int next_restart_num;
         int [] cur_maxcode, cur_huffval, cur_valoffset;
 
         HuffDecoder(InputStream is) {
@@ -5160,10 +5160,11 @@ enough:
     }
 
     private class RestartException extends Exception {
-        RestartException(int scan) {
-            this.scan = scan;
+		private static final long serialVersionUID = 2139839638301914967L;
+		RestartException(int scan) {
+//            this.scan = scan;
         }
-        int scan;
+//        int scan;
     }
 
     /**
@@ -5176,7 +5177,7 @@ enough:
     protected int readcounter;
     private boolean gatheringStats;
     // APP headers storage
-    private int [][] app_store;
+//    private int [][] app_store;
 
     // image parameters
     private int components_in_scan;
@@ -5265,7 +5266,7 @@ enough:
     /**
      * Internal variable containing imageinfo
      */
-    protected AbstractImageInfo imageinfo;
+    protected AbstractImageInfo<?> imageinfo;
 
     /**
      * Internal variable containing appx Marker Data

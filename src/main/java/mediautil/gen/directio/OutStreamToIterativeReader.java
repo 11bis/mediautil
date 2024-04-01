@@ -65,7 +65,8 @@ public class OutStreamToIterativeReader extends OutputStream {
 
         public void setCounter(int counterArr[], boolean upMode)
         {
-            int i = counterArr[0]; // Good if an exception is detected
+            @SuppressWarnings("unused")
+			int i = counterArr[0]; // Good if an exception is detected
             this.counterArr = counterArr;
             this.upMode = upMode;
         }
@@ -75,7 +76,8 @@ public class OutStreamToIterativeReader extends OutputStream {
             return totalBytes;
         }
 
-        public void setRequestBuf(byte b[], int off, int len)
+        @SuppressWarnings("unused")
+		public void setRequestBuf(byte b[], int off, int len)
         {
             writeBuf = b;
             writeBufPos = off;

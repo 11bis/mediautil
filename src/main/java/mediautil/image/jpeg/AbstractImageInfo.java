@@ -59,6 +59,8 @@ import mediautil.image.ImageResources;
  * @author dmitriy
  */
 public abstract class AbstractImageInfo<F extends LLJTran> extends BasicJpegIo implements MediaInfo {
+	private static final long serialVersionUID = 3507662128122102523L;
+
 	/** Default Thumbnail Size */
 	public static final Dimension DEFAULT_THUMB_SIZE = new Dimension(120, 96);
 
@@ -74,7 +76,7 @@ public abstract class AbstractImageInfo<F extends LLJTran> extends BasicJpegIo i
 
 	public final static int BMP24_HDR_SIZE = 54;
 
-	protected static final Class[] EMPTY_PARAMS = {};
+	protected static final Class<?>[] EMPTY_PARAMS = {};
 
 	protected AdvancedImage advancedImage;
 

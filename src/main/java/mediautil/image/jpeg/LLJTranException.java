@@ -26,7 +26,9 @@
 package mediautil.image.jpeg;
 
 public class LLJTranException extends Exception {
-    public LLJTranException(String msg)
+	private static final long serialVersionUID = -8908022347207346307L;
+
+	public LLJTranException(String msg)
     {
         super(msg);
     }

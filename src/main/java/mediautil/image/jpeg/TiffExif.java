@@ -26,11 +26,13 @@
 package mediautil.image.jpeg;
 
 import java.io.*;
+import java.nio.charset.Charset;
 
 import mediautil.gen.FileFormatException;
 import mediautil.gen.Rational;
 
 public class TiffExif extends Exif {
+	private static final long serialVersionUID = 4390886930068078336L;
 	final static int FAKE_JPEG_OFFSET = FIRST_IFD_OFF + 1;
 	public TiffExif(InputStream is, byte[] data, int offset, String name, boolean intel, LLJTran format) throws FileFormatException {
 		this.intel = intel;
@@ -47,16 +49,16 @@ public class TiffExif extends Exif {
 		ifds = new IFD[2] ;
 		processAllIFDs();
 		// offset and size of thumbnails for Nikon images
-		if (getTagValue(new Integer(JPEGINTERCHANGEFORMATLENGTH), 0, false) == null) {
+		if (getTagValue(Integer.valueOf(JPEGINTERCHANGEFORMATLENGTH), 0, false) == null) {
 			Entry e = getTagValue(STRIPOFFSETS, true);
 			if (e != null) {
 				setTagValue(JPEGINTERCHANGEFORMATLENGTH, 0,
-							new Entry(LONG, new Object[] {new Integer(((Integer)e.getValue(0)).intValue()-getThumbnailOffset()+DIR_ENTRY_SIZE)}), false); // Exif add this value to offset
+							new Entry(LONG, new Object[] {Integer.valueOf(((Integer)e.getValue(0)).intValue()-getThumbnailOffset()+DIR_ENTRY_SIZE)}), false); // Exif add this value to offset
 			}
 		}
-		if (getTagValue(new Integer(JPEGINTERCHANGEFORMAT), 0, false) == null)
+		if (getTagValue(Integer.valueOf(JPEGINTERCHANGEFORMAT), 0, false) == null)
 			setTagValue(JPEGINTERCHANGEFORMAT, 0, 
-						new Entry(LONG, new Object[] {new Integer(offset-FIRST_IFD_OFF)}), false); // Exif add this value to offset
+						new Entry(LONG, new Object[] {Integer.valueOf(offset-FIRST_IFD_OFF)}), false); // Exif add this value to offset
 		offset = 0;
 	}
 
@@ -106,17 +108,13 @@ public class TiffExif extends Exif {
 					data = value_data;
 				}
 				if (type == ASCII) {
-					try {
-						ifd_p.addEntry(tag, new Entry(type,
-													  new String(data, data_off, count-1, "Default")));
-					} catch(UnsupportedEncodingException e) {
-					}
+					ifd_p.addEntry(tag, new Entry(type, new String(data, data_off, count-1, Charset.defaultCharset())));
 				} else {
 					Object[] values = new Object[count];
 					boolean signed = (SBYTE == 6 || type >= SSHORT);
 					for (int j=0; j<count; j++) {
 						if (type % RATIONAL != 0) // Not a fraction
-							values[j] = new Integer(s2n(data_off, typelen, signed));
+							values[j] = Integer.valueOf(s2n(data_off, typelen, signed));
 						else // The type is either 5 or 10
 							values[j] = new Rational(s2n(data_off, 4, signed),
 													 s2n(data_off+4, 4, signed));

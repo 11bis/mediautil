@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Hashtable;
@@ -44,7 +45,9 @@ import mediautil.gen.Rational;
 import mediautil.image.ImageResources;
 
 public class JFXX extends AbstractImageInfo <LLJTran>{
-    final static String FORMAT = "JFXX";
+	private static final long serialVersionUID = -9007403711517451474L;
+
+	final static String FORMAT = "JFXX";
 
     static final String PICTURE_INFO = "picture info";
 
@@ -331,13 +334,7 @@ public class JFXX extends AbstractImageInfo <LLJTran>{
             while (curpos < data.length && data[curpos] != 0
                     && data[curpos] != 0x0A && data[curpos] != 0x0D)
                 curpos++;
-            String result = null;
-            try {
-                result = new String(data, startpos, curpos - startpos,
-                        "Default");
-            } catch (UnsupportedEncodingException e) {
-
-            }
+            String result = new String(data, startpos, curpos - startpos, Charset.defaultCharset());
             // skip unused
             while (curpos < data.length
                     && (data[curpos] == 0 || data[curpos] == 0x0A || data[curpos] == 0x0D))

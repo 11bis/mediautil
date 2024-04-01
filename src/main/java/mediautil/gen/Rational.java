@@ -28,7 +28,8 @@ package mediautil.gen;
 import java.io.Serializable;
 
 public class Rational implements Serializable {
-    int num, den;
+	private static final long serialVersionUID = -6622053872829615719L;
+	int num, den;
 	public Rational(int num, int den) {
 		this.num = num;
 		this.den = den;
@@ -36,7 +37,7 @@ public class Rational implements Serializable {
 
     public Rational(float value) {
         den = 1000;
-        num = (int)(value*(new Integer(den).floatValue()));
+        num = (int)(value*(Integer.valueOf(den).floatValue()));
     }
 
 	public String toString() {

@@ -31,10 +31,12 @@ import java.io.Serializable;
 
 public class Record implements Serializable {
 	
+	private static final long serialVersionUID = 9194837378357559812L;
+
 	public int colorbitdepth, colorbw, reserved1, reserved2; // review why we need to expose 
 
 	public Record(int type) {
-		this.type = new Integer(type);
+		this.type = Integer.valueOf(type);
 	}
 
 	public Record(int type, String value) {

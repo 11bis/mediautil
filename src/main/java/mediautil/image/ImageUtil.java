@@ -169,7 +169,7 @@ public class ImageUtil {
 
 	public static boolean saveSizedImage(OutputStream os, Image image,
 			Dimension size, String format) throws IOException {
-		Iterator writers = ImageIO.getImageWritersByFormatName(format);
+		Iterator<?> writers = ImageIO.getImageWritersByFormatName(format);
 		if (writers != null && writers.hasNext()) {
 			ImageWriter wr = (ImageWriter) writers.next();
 			wr.setOutput(new MemoryCacheImageOutputStream(os));

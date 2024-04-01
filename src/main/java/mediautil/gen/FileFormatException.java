@@ -26,8 +26,9 @@
 package mediautil.gen;
 
 public class FileFormatException extends java.io.IOException {
-    public FileFormatException(String reason) {
-	this.reason = reason;
+	private static final long serialVersionUID = 894874529358615237L;
+	public FileFormatException(String reason) {
+//	this.reason = reason;
     }
-    private String reason;
+//    private String reason;
 }

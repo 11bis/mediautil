@@ -40,7 +40,9 @@ import javax.imageio.stream.ImageInputStream;
 
 public class PictureView extends JScrollPane {
 
-    private static class ImageWaiter implements  ImageObserver
+	private static final long serialVersionUID = 789241411254752653L;
+
+	private static class ImageWaiter implements  ImageObserver
     {
         int side = -1, reqdFlag = 0;
         public boolean imageUpdate(Image img, int infoflags, int x, int y,
@@ -79,7 +81,8 @@ public class PictureView extends JScrollPane {
     }
 
     public static class PictureComponent extends JComponent {
-        private Image refImage;
+		private static final long serialVersionUID = 6142995428907377417L;
+		private Image refImage;
         private Insets extraInsets;
         private Insets totalInsets;
         private double scale;

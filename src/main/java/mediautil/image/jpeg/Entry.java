@@ -26,10 +26,13 @@
 package mediautil.image.jpeg;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 
 public class Entry implements Serializable {
 
-    public Entry(int type) {
+	private static final long serialVersionUID = 960284458621701377L;
+	
+	public Entry(int type) {
         this.type = type;
     }
 
@@ -86,7 +89,24 @@ public class Entry implements Serializable {
             value = tempHolder;
        }
     }
-
+	
+	//********** MODIF JLG **********
+    //Method added to be able to change value directly when it is an array
+    public void setValue(Object newValue) {
+      if (newValue instanceof String)
+        str = (String)newValue;
+      else if( newValue!=null && newValue.getClass().isArray() )
+        {
+        int n = Array.getLength( newValue );
+        value = new Object[n];
+        for(int i=0; i<n; i++)
+          value[i] = Array.get( newValue, i);
+        }
+      else
+        System.err.println("Entry.setValue : cannot manage value "+newValue);
+    }
+    //********** END MODIF JLG **********
+	  
     private int type;
     private String str;
     private Object[] value;

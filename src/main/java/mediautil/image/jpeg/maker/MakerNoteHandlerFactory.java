@@ -79,12 +79,12 @@ public class MakerNoteHandlerFactory {
         String className = getHandlerClassName(make, model);
         if (className != null && className.trim().length() >0) {
             try {
-                if(true || Log.debugLevel >= Log.LEVEL_DEBUG)
-                    System.err.print("Trying " + className + "... ");
-                Class handlerClass = Class.forName(className);
+//                if(true || Log.debugLevel >= Log.LEVEL_DEBUG)
+//                    System.err.print("Trying " + className + "... ");
+                Class<?> handlerClass = Class.forName(className);
 
                 // Get its default constructor
-                Constructor ct = handlerClass.getConstructor(null);
+                Constructor<?> ct = handlerClass.getConstructor(null);
 
                 // Call the constructor to get a plugin instance
                 MakerNoteHandler handler =  (MakerNoteHandler) ct.newInstance(null);

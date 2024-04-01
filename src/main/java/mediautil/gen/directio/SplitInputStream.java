@@ -88,7 +88,8 @@ public class SplitInputStream extends FilterInputStream {
 
         public void setCounter(int counterArr[], boolean upMode)
         {
-            int i = counterArr[0]; // Good if an exception is detected
+            @SuppressWarnings("unused")
+			int i = counterArr[0]; // Good if an exception is detected
             this.counterArr = counterArr;
             this.upMode = upMode;
         }
@@ -658,7 +659,6 @@ public class SplitInputStream extends FilterInputStream {
         sub.readerId = retVal;
         int newQPtrs[] = new int[qPtrs.length + 1];
         System.arraycopy(qPtrs, 0, newQPtrs, 0, qPtrs.length);
-        int i;
         newQPtrs[qPtrs.length] = findQBegin(null);
         qPtrs = newQPtrs;
 
@@ -949,7 +949,6 @@ public class SplitInputStream extends FilterInputStream {
      */
     public void wrapup() throws IOException
     {
-        int readerNo;
         while(codes.length > 0)
             skip(100000);
 
